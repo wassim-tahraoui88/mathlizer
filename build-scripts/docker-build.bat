@@ -1,0 +1,1 @@
+docker build -t wassimtahraoui88/mathlizer:latest .
