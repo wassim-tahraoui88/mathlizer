@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,14 +31,14 @@ public class MathController {
 
 	//region Endpoints
 	@PostMapping("/derive")
-	public ResponseEntity<String> derive(@RequestBody DerivativeRequest request) {
-		var derivative = mathService.calculateDerivative(request.function(), request.variable());
+	public ResponseEntity<String> derive(@RequestBody DerivativeRequest request, @RequestParam(required = false, name = "is-latex", defaultValue = "false") Boolean isLatex) {
+		var derivative = mathService.calculateDerivative(request, isLatex);
 		return ResponseBuilder.accept(HttpStatus.OK, derivative);
 	}
 
 	@PostMapping("/limit")
-	public ResponseEntity<String> limit(@RequestBody LimitRequest request) {
-		var limit = mathService.calculateLimit(request.function(), request.point().replace("inf","oo"));
+	public ResponseEntity<String> limit(@RequestBody LimitRequest request, @RequestParam(required = false, name = "is-latex", defaultValue = "false") Boolean isLatex) {
+		var limit = mathService.calculateLimit(request, isLatex).replace("oo","∞");
 		return ResponseBuilder.accept(HttpStatus.OK, limit);
 	}
 

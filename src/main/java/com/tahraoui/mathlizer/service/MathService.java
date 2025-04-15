@@ -1,5 +1,7 @@
 package com.tahraoui.mathlizer.service;
 
+import com.tahraoui.mathlizer.controller.data.request.DerivativeRequest;
+import com.tahraoui.mathlizer.controller.data.request.LimitRequest;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,11 +19,13 @@ public class MathService {
 
 	}
 
-	public String calculateDerivative(String function, String variable) {
-		return pythonRunner.executeScript("derive", function, variable);
+	public String calculateDerivative(DerivativeRequest request, boolean isLatex) {
+		var isLatexArg = isLatex ? "True" : "False";
+		return pythonRunner.executeScript("derive", request.function(), request.variable(), isLatexArg);
 	}
-	public String calculateLimit(String function, String point) {
-		return pythonRunner.executeScript("limit", function, point);
+	public String calculateLimit(LimitRequest request, boolean isLatex) {
+		var isLatexArg = isLatex ? "True" : "False";
+		return pythonRunner.executeScript("limit", request.function(), request.point().replace("inf","oo"), isLatexArg);
 	}
 
 	public byte[] graphFunction(String function, String start, String end) {
