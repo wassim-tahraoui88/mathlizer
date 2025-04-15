@@ -1,5 +1,6 @@
 package com.tahraoui.mathlizer.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -11,9 +12,11 @@ import java.util.List;
 @Component
 public class PythonRunner {
 
+	@Value("${python.scripts-folder}")
+	private String scriptsPath;
 
 	String executeScript(String scriptName, String... args) {
-		var pb = new ProcessBuilder("python", "python-scripts/%s.py".formatted(scriptName));
+		var pb = new ProcessBuilder("python", scriptsPath.formatted(scriptName));
 		pb.directory(new File("."));
 		pb.command().addAll(List.of(args));
 

@@ -34,3 +34,4 @@ build/
 /docker-compose.yaml
 /docker-full.bat
 /Dockerfile
+/.env
