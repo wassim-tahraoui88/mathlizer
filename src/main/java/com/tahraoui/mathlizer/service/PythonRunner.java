@@ -11,11 +11,9 @@ import java.util.List;
 @Component
 public class PythonRunner {
 
-	private static final boolean IS_PRE_PYTHON = false;
 
 	String executeScript(String scriptName, String... args) {
-		if (IS_PRE_PYTHON) return "Test String";
-		var pb = new ProcessBuilder("python3", "python-scripts/%s.py".formatted(scriptName));
+		var pb = new ProcessBuilder("python", "python-scripts/%s.py".formatted(scriptName));
 		pb.directory(new File("."));
 		pb.command().addAll(List.of(args));
 
