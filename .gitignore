@@ -36,3 +36,4 @@ build/
 /Dockerfile
 /.env
 /build-scripts/
+/src/main/resources/multimedia/
