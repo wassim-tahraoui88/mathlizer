@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class PythonRunner {
 
-	@Value("${python.scripts-folder}")
+	@Value("${python.scripts.path}")
 	private String scriptsPath;
 
 	String executeScript(String scriptName, String... args) {

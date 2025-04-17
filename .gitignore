@@ -32,6 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 /docker-compose.yaml
-/docker-full.bat
+/docker-full.sh
 /Dockerfile
 /.env
+/build-scripts/

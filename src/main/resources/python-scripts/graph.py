@@ -10,6 +10,7 @@ var = "x"
 start = float(sys.argv[2])
 end = float(sys.argv[3])
 output_file_name = sys.argv[4]
+multimedia_path_temp = sys.argv[5]
 
 
 x = symbols(var)
@@ -34,7 +35,7 @@ plt.axvline(0, color='black', linewidth=0.8, linestyle="--")
 plt.grid(alpha=0.5)
 plt.legend()
 
-output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "multimedia", "temp")
+output_dir = multimedia_path_temp
 os.makedirs(output_dir, exist_ok=True)
 output_path = os.path.join(output_dir, f"{output_file_name}.svg")
 plt.savefig(output_path, format="svg")

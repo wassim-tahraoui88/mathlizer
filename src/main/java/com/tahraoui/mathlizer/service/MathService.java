@@ -2,6 +2,7 @@ package com.tahraoui.mathlizer.service;
 
 import com.tahraoui.mathlizer.controller.data.request.DerivativeRequest;
 import com.tahraoui.mathlizer.controller.data.request.LimitRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -12,6 +13,9 @@ import java.util.UUID;
 @Service
 public class MathService {
 
+	@Value("${multimedia.path.temp}")
+	private String multimediaPathTemp;
+
 	private final PythonRunner pythonRunner;
 
 	public MathService(PythonRunner pythonScriptExecutor) {
@@ -20,21 +24,19 @@ public class MathService {
 	}
 
 	public String calculateDerivative(DerivativeRequest request, boolean isLatex) {
-		var isLatexArg = isLatex ? "True" : "False";
-		return pythonRunner.executeScript("derive", request.function(), request.variable(), isLatexArg);
+		return pythonRunner.executeScript("derive", request.function(), request.variable(), String.valueOf(isLatex ? '1' : '0'));
 	}
 	public String calculateLimit(LimitRequest request, boolean isLatex) {
-		var isLatexArg = isLatex ? "True" : "False";
-		return pythonRunner.executeScript("limit", request.function(), request.point().replace("inf","oo"), isLatexArg);
+		return pythonRunner.executeScript("limit", request.function(), request.point().replace("inf","oo"), String.valueOf(isLatex ? '1' : '0'));
 	}
 
 	public byte[] graphFunction(String function, String start, String end) {
 		var outputFileName = "graph-" + UUID.randomUUID();
 
-		pythonRunner.executeScript("graph", function, start, end, outputFileName);
+		pythonRunner.executeScript("graph", function, start, end, outputFileName, multimediaPathTemp);
 
 		try {
-			var outputFilePath = new File("multimedia/temp/%s.svg".formatted(outputFileName)).toPath();
+			var outputFilePath = new File("%s/%s.svg".formatted(multimediaPathTemp, outputFileName)).toPath();
 			var bytes = Files.readAllBytes(outputFilePath);
 			Files.delete(outputFilePath);
 			return bytes;

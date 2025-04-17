@@ -6,7 +6,7 @@ if len(sys.argv) < 3:
 
 expr = sys.argv[1]
 point = sys.argv[2]
-is_latex = bool(sys.argv[3])
+is_latex = sys.argv[3] == "1"
 x = symbols("x")
 
 result = limit(sympify(expr), x, sympify(point))
