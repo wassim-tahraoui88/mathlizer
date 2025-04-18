@@ -24,9 +24,9 @@ public class MathService {
 	}
 
 	public String calculateDerivative(DerivativeRequest request, boolean isLatex) {
-		return pythonRunner.executeScript("derive", request.function(), request.variable(), String.valueOf(isLatex ? '1' : '0'));
+		return pythonRunner.executeScript("derive", request.function(), request.variable(), String.valueOf(request.order()), String.valueOf(isLatex ? '1' : '0'));
 	}
-	public String calculateLimit(LimitRequest request, boolean isLatex) {
+	public String evaluateLimit(LimitRequest request, boolean isLatex) {
 		return pythonRunner.executeScript("limit", request.function(), request.point().replace("inf","oo"), String.valueOf(isLatex ? '1' : '0'));
 	}
 

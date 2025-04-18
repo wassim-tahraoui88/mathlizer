@@ -38,7 +38,7 @@ public class MathController {
 
 	@PostMapping("/limit")
 	public ResponseEntity<String> limit(@RequestBody LimitRequest request, @RequestParam(required = false, name = "is-latex", defaultValue = "false") Boolean isLatex) {
-		var limit = mathService.calculateLimit(request, isLatex).replace("oo","∞");
+		var limit = mathService.evaluateLimit(request, isLatex).replace("oo","∞");
 		return ResponseBuilder.accept(HttpStatus.OK, limit);
 	}
 
