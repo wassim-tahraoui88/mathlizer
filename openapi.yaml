@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+    title: Mathlizer API
+    version: 1.0.0
+    description: RESTful API for performing symbolic mathematical operations like derivatives, limits, and graphing.
+servers:
+    - url: http://51.21.197.98:8080
+      description: Production Server
+    - url: http://localhost:8080
+      description: Local Development Server
+paths:
+    /api/v1/math/derive:
+        post:
+            summary: Calculate the derivative of a function
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DerivativeRequest'
+            parameters:
+                - name: is-latex
+                  in: query
+                  required: false
+                  schema:
+                      type: boolean
+                      default: false
+                  description: Whether the result should be in LaTeX format.
+            responses:
+                '200':
+                    description: Derivative result
+                    content:
+                        unb:
+                            schema:
+                                type: string
+
+    /api/v1/math/limit:
+        post:
+            summary: Calculate the limit of a function
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LimitRequest'
+            parameters:
+                - name: is-latex
+                  in: query
+                  required: false
+                  schema:
+                      type: boolean
+                      default: false
+                  description: Whether the result should be in LaTeX format.
+            responses:
+                '200':
+                    description: Limit result
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+
+    /api/v1/math/graph:
+        post:
+            summary: Generate a graph for a function
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/GraphRequest'
+            responses:
+                '200':
+                    description: Graph image in SVG format
+                    content:
+                        image/svg+xml:
+                            schema:
+                                type: string
+                                format: binary
+                    headers:
+                        Content-Disposition:
+                            description: Indicates the file attachment
+                            schema:
+                                type: string
+
+components:
+    schemas:
+        DerivativeRequest:
+            type: object
+            properties:
+                function:
+                    type: string
+                    description: The function to derive.
+                variable:
+                    type: string
+                    description: The variable with respect to which the derivative is calculated.
+            required:
+                - function
+                - variable
+
+        LimitRequest:
+            type: object
+            properties:
+                function:
+                    type: string
+                    description: The function to evaluate the limit for.
+                variable:
+                    type: string
+                    description: The variable in the function.
+                point:
+                    type: string
+                    description: The point at which the limit is evaluated.
+            required:
+                - function
+                - variable
+                - point
+
+        GraphRequest:
+            type: object
+            properties:
+                function:
+                    type: string
+                    description: The function to graph.
+                start:
+                    type: number
+                    description: The start of the range for the graph.
+                end:
+                    type: number
+                    description: The end of the range for the graph.
+            required:
+                - function
+                - start
+                - end
